@@ -1,0 +1,29 @@
+<p id="json_db_data_from_backend" style="display:none;">
+    {{#each db_full_datas}}
+    <span class="text-white">{{this}}</span>
+    {{/each}}
+</p>
+
+<h1 id="success_msg" style="display: none;" class="text-white text-center">FULL DATA BASE SUCCESSFULLY DOWNLOADED...!</h1>
+
+<script>
+    $(document).ready(function () {
+        function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+            document.body.removeChild(element);
+            $('#success_msg').show();
+        }
+
+        // Start file download.
+        let date = new Date().toLocaleString();
+        let content = $('#json_db_data_from_backend').text();
+        download("DB_OF_" + new Date().toLocaleString(), content);
+    })
+</script>
