@@ -7,6 +7,8 @@ var logger = require("morgan");
 //I CHANGED OR ADDED START
 var homeRouter = require("./routes/home");
 var processRouter = require("./routes/process");
+var office_data_entryRouter = require("./routes/office_data_entry");
+
 //I CHANGED OR ADDED END
 
 var app = express();
@@ -58,6 +60,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", homeRouter);
 app.use("/process", processRouter);
+app.use("/office_data_entry", office_data_entryRouter);
+
 
 /// catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -87,51 +91,51 @@ const auth = new google.auth.GoogleAuth({
   scopes: SCOPES,
 });
 
-setInterval(function () {
-  let Time_start = "09:00:00";
-  let Time_end = "19:00:00";
+// setInterval(function () {
+//   let Time_start = "09:00:00";
+//   let Time_end = "19:00:00";
 
-  currentTime = new Date();
-  startTime = new Date(currentTime.getTime());
-  startTime.setHours(Time_start.split(":")[0]);
-  startTime.setMinutes(Time_start.split(":")[1]);
-  startTime.setSeconds(Time_start.split(":")[2]);
+//   currentTime = new Date();
+//   startTime = new Date(currentTime.getTime());
+//   startTime.setHours(Time_start.split(":")[0]);
+//   startTime.setMinutes(Time_start.split(":")[1]);
+//   startTime.setSeconds(Time_start.split(":")[2]);
 
-  endTime = new Date(currentTime.getTime());
-  endTime.setHours(Time_end.split(":")[0]);
-  endTime.setMinutes(Time_end.split(":")[1]);
-  endTime.setSeconds(Time_end.split(":")[2]);
+//   endTime = new Date(currentTime.getTime());
+//   endTime.setHours(Time_end.split(":")[0]);
+//   endTime.setMinutes(Time_end.split(":")[1]);
+//   endTime.setSeconds(Time_end.split(":")[2]);
 
-  let check_Time = startTime < currentTime && endTime > currentTime;
-  if (check_Time) {
-    console.log("TIME FOR BACKUP THE FULL DB");
-    functions.get_full_datas_from_db().then(async (db_full_datas) => {
-      var content = new Object();
-      try {
-        content.name = "DB_OF_" + new Date().toLocaleString();
-        content.body = JSON.stringify(db_full_datas);
-        await uploadFile(content);
-        console.log("DB BACKUP COMPLETED");
-      } catch (f) {
-        console.log(f.message);
-      }
-    });
+//   let check_Time = startTime < currentTime && endTime > currentTime;
+//   if (check_Time) {
+//     console.log("TIME FOR BACKUP THE FULL DB");
+//     functions.get_full_datas_from_db().then(async (db_full_datas) => {
+//       var content = new Object();
+//       try {
+//         content.name = "DB_OF_" + new Date().toLocaleString();
+//         content.body = JSON.stringify(db_full_datas);
+//         await uploadFile(content);
+//         console.log("DB BACKUP COMPLETED");
+//       } catch (f) {
+//         console.log(f.message);
+//       }
+//     });
 
-    const uploadFile = async (content) => {
-      await google.drive({ version: "v3", auth }).files.create({
-        media: {
-          mimeType: "application/json",
-          body: content.body,
-        },
-        requestBody: {
-          name: content.name,
-          parents: ["1351aD6KDtVqoLk-KrksOlD-NFhgdnQLP"],
-        },
-        fields: "id,name",
-      });
-    };
-  }
-}, 300000);
+//     const uploadFile = async (content) => {
+//       await google.drive({ version: "v3", auth }).files.create({
+//         media: {
+//           mimeType: "application/json",
+//           body: content.body,
+//         },
+//         requestBody: {
+//           name: content.name,
+//           parents: ["1351aD6KDtVqoLk-KrksOlD-NFhgdnQLP"],
+//         },
+//         fields: "id,name",
+//       });
+//     };
+//   }
+// }, 300000);
 
 //FULL DB DATAS BACKUP TO GOOGLE DRIVE - END
 
