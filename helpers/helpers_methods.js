@@ -12,6 +12,4 @@ module.exports = {
             resolve(data);
         })
     },
-
-    
 }
