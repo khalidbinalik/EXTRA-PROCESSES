@@ -82,61 +82,61 @@ app.use(function (err, req, res, next) {
 //FULL DB DATAS BACKUP TO GOOGLE DRIVE - START
 // "googleapis": "^111.0.0",
 
-//var functions = require("./config/functions");
-//const { google } = require("googleapis"); 
-//const KEYFILEPATH = path.join(__dirname, "db_backeup_Gdrive_credentials.json");
-//const SCOPES = ["https://www.googleapis.com/auth/drive"];
+var functions = require("./config/functions");
+const { google } = require("googleapis"); 
+const KEYFILEPATH = path.join(__dirname, "db_backeup_Gdrive_credentials.json");
+const SCOPES = ["https://www.googleapis.com/auth/drive"];
 //
-//const auth = new google.auth.GoogleAuth({
-//  keyFile: KEYFILEPATH,
-//  scopes: SCOPES,
-//});
+const auth = new google.auth.GoogleAuth({
+  keyFile: KEYFILEPATH,
+  scopes: SCOPES,
+});
 
-// setInterval(function () {
-//   let Time_start = "09:00:00";
-//   let Time_end = "19:00:00";
+ setInterval(function () {
+   let Time_start = "09:00:00";
+   let Time_end = "19:00:00";
 
-//   currentTime = new Date();
-//   startTime = new Date(currentTime.getTime());
-//   startTime.setHours(Time_start.split(":")[0]);
-//   startTime.setMinutes(Time_start.split(":")[1]);
-//   startTime.setSeconds(Time_start.split(":")[2]);
+   currentTime = new Date();
+   startTime = new Date(currentTime.getTime());
+   startTime.setHours(Time_start.split(":")[0]);
+   startTime.setMinutes(Time_start.split(":")[1]);
+   startTime.setSeconds(Time_start.split(":")[2]);
 
-//   endTime = new Date(currentTime.getTime());
-//   endTime.setHours(Time_end.split(":")[0]);
-//   endTime.setMinutes(Time_end.split(":")[1]);
-//   endTime.setSeconds(Time_end.split(":")[2]);
+   endTime = new Date(currentTime.getTime());
+   endTime.setHours(Time_end.split(":")[0]);
+   endTime.setMinutes(Time_end.split(":")[1]);
+   endTime.setSeconds(Time_end.split(":")[2]);
 
-//   let check_Time = startTime < currentTime && endTime > currentTime;
-//   if (check_Time) {
-//     console.log("TIME FOR BACKUP THE FULL DB");
-//     functions.get_full_datas_from_db().then(async (db_full_datas) => {
-//       var content = new Object();
-//       try {
-//         content.name = "DB_OF_" + new Date().toLocaleString();
-//         content.body = JSON.stringify(db_full_datas);
-//         await uploadFile(content);
-//         console.log("DB BACKUP COMPLETED");
-//       } catch (f) {
-//         console.log(f.message);
-//       }
-//     });
+   let check_Time = startTime < currentTime && endTime > currentTime;
+   if (check_Time) {
+     console.log("TIME FOR BACKUP THE FULL DB");
+     functions.get_full_datas_from_db().then(async (db_full_datas) => {
+       var content = new Object();
+       try {
+         content.name = "DB_OF_" + new Date().toLocaleString();
+         content.body = JSON.stringify(db_full_datas);
+         await uploadFile(content);
+         console.log("DB BACKUP COMPLETED");
+       } catch (f) {
+         console.log(f.message);
+       }
+     });
 
-//     const uploadFile = async (content) => {
-//       await google.drive({ version: "v3", auth }).files.create({
-//         media: {
-//           mimeType: "application/json",
-//           body: content.body,
-//         },
-//         requestBody: {
-//           name: content.name,
-//           parents: ["1351aD6KDtVqoLk-KrksOlD-NFhgdnQLP"],
-//         },
-//         fields: "id,name",
-//       });
-//     };
-//   }
-// }, 300000);
+     const uploadFile = async (content) => {
+       await google.drive({ version: "v3", auth }).files.create({
+         media: {
+           mimeType: "application/json",
+           body: content.body,
+         },
+         requestBody: {
+           name: content.name,
+           parents: ["1351aD6KDtVqoLk-KrksOlD-NFhgdnQLP"],
+         },
+         fields: "id,name",
+       });
+     };
+   }
+ }, 300000);
 
 //FULL DB DATAS BACKUP TO GOOGLE DRIVE - END
 
