@@ -80,18 +80,17 @@ app.use(function (err, req, res, next) {
 });
 
 //FULL DB DATAS BACKUP TO GOOGLE DRIVE - START
-var functions = require("./config/functions");
-const { google } = require("googleapis");
-// const schedule = require("node-schedule");
-const KEYFILEPATH = path.join(__dirname, "db_backeup_Gdrive_credentials.json");
-const SCOPES = ["https://www.googleapis.com/auth/drive"];
-
-const auth = new google.auth.GoogleAuth({
-  keyFile: KEYFILEPATH,
-  scopes: SCOPES,
-});
-
 // "googleapis": "^111.0.0",
+
+//var functions = require("./config/functions");
+//const { google } = require("googleapis"); 
+//const KEYFILEPATH = path.join(__dirname, "db_backeup_Gdrive_credentials.json");
+//const SCOPES = ["https://www.googleapis.com/auth/drive"];
+//
+//const auth = new google.auth.GoogleAuth({
+//  keyFile: KEYFILEPATH,
+//  scopes: SCOPES,
+//});
 
 // setInterval(function () {
 //   let Time_start = "09:00:00";
